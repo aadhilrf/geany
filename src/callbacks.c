@@ -1171,6 +1171,14 @@ void on_toolbutton_run_clicked(GtkAction *action, gpointer user_data)
 	keybindings_send_command(GEANY_KEY_GROUP_BUILD, GEANY_KEYS_BUILD_RUN);
 }
 
+//Aadhilrf
+//Toolbutton assistant clicked here
+void on_toolbutton_assistant_clicked(GtkAction *action, gpointer user_data)
+{
+    
+    // main_quit();
+}
+
 
 void on_menu_remove_indicators1_activate(GtkMenuItem *menuitem, gpointer user_data)
 {

@@ -41,11 +41,11 @@
 
 #include "gtkcompat.h"
 
-#define HEADER "<span size=\"larger\" weight=\"bold\">Geany %s</span>"
+#define HEADER "<span size=\"larger\" weight=\"bold\">Gean-i  %s</span>"
 #define INFO "<span size=\"larger\" weight=\"bold\">%s</span>"
 #define CODENAME "<span weight=\"bold\">\"" GEANY_CODENAME "\"</span>"
 #define BUILDDATE "<span size=\"smaller\">%s</span>"
-#define COPYRIGHT _("Copyright (c)  2005-2017\nColomban Wendling\nNick Treleaven\nMatthew Brush\nEnrico Tröger\nFrank Lanitz\nAll rights reserved.")
+#define COPYRIGHT _("Copyright (c)  2005-2018\nColomban Wendling\nMohammed Aadhil\nNick Treleaven\nMatthew Brush\nEnrico Tröger\nFrank Lanitz\nAll rights reserved.")
 
 static const gchar *translators[][2] = {
 	{ "ar", "Fayssal Chamekh &lt;chamfay@gmail.com&gt;"},
@@ -168,8 +168,8 @@ static GtkWidget *create_dialog(void)
 	/* configure dialog */
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(main_widgets.window));
 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
-	gtk_window_set_title(GTK_WINDOW(dialog), _("About Geany"));
-	gtk_window_set_icon_name(GTK_WINDOW(dialog), "geany");
+	gtk_window_set_title(GTK_WINDOW(dialog), _("About Gean-i"));
+	gtk_window_set_icon_name(GTK_WINDOW(dialog), "gean-i");
 	gtk_widget_set_name(dialog, "GeanyDialog");
 	gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_CLOSE);
@@ -293,6 +293,15 @@ static GtkWidget *create_dialog(void)
 	ROW(buffer, row, 0, 0, 0, 1);
 	row++;
 	ROW("&lt;lists.ban@herbesfolles.org&gt;", row, 0, 0, 0, 1);
+	row++;
+	ROW("", row, 0, 0, 0, 0);
+	row++;
+
+    
+	g_snprintf(buffer, sizeof(buffer), "Mohammed Aadhil - %s", _("developer"));
+	ROW(buffer, row, 0, 0, 0, 1);
+	row++;
+	ROW("&lt;aadhilkh2011@gmail.com&gt;", row, 0, 0, 0, 1);
 	row++;
 	ROW("", row, 0, 0, 0, 0);
 	row++;

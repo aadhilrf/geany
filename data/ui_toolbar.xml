@@ -32,6 +32,8 @@ at http://www.geany.org/manual/current/index.html#customizing-the-toolbar.
 		<toolitem action='Build' />
 		<toolitem action='Run' />
 		<separator/>
+        <toolitem action='DevAsst' />
+		<separator/>
 		<toolitem action='Color' />
 		<separator/>
 		<toolitem action='SearchEntry' />
