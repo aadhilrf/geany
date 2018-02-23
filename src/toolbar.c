@@ -71,7 +71,7 @@ static const GtkActionEntry ui_entries[] = {
 	{ "NavFor", GTK_STOCK_GO_FORWARD, NULL, NULL, N_("Navigate forward a location"), G_CALLBACK(on_toolbutton_forward_activate) },
 	{ "Compile", GTK_STOCK_CONVERT, N_("Compile"), NULL, N_("Compile the current file"), G_CALLBACK(on_toolbutton_compile_clicked) },
 	{ "Run", GTK_STOCK_EXECUTE, NULL, NULL, N_("Run or view the current file"), G_CALLBACK(on_toolbutton_run_clicked) },
-	{ "DevAsst", GTK_STOCK_MEDIA_RECORD, NULL, NULL, N_("Invoke the Assistant"), G_CALLBACK(on_quit1_activate) },	
+	{ "DevAsst", GTK_STOCK_MEDIA_RECORD, NULL, NULL, N_("Invoke the Assistant"), G_CALLBACK(on_toolbutton_assistant_clicked) },	
 	{ "Color", GTK_STOCK_SELECT_COLOR, N_("Color Chooser"), NULL, N_("Open a color chooser dialog, to interactively pick colors from a palette"), G_CALLBACK(on_show_color_chooser1_activate) },
 	{ "ZoomIn", GTK_STOCK_ZOOM_IN, NULL, NULL, N_("Zoom in the text"), G_CALLBACK(on_zoom_in1_activate) },
 	{ "ZoomOut", GTK_STOCK_ZOOM_OUT, NULL, NULL, N_("Zoom out the text"), G_CALLBACK(on_zoom_out1_activate) },
