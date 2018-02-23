@@ -10,9 +10,8 @@ Geany Fork that includes a Developer Assistant.
 Features
 --------
 The basic features are:
-
- -Retrieve online repo on voice command.
- -Code generation using native language.
+-- Retrieve online repo on voice command.
+-- Code generation using native language.
 
 Install
 +++++++++++++++++++++++++++
