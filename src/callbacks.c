@@ -17,12 +17,12 @@
  *      You should have received a copy of the GNU General Public License along
  *      with this program; if not, write to the Free Software Foundation, Inc.,
  *      51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+*/
 
 /*
  * Callbacks used by Glade. These are mainly in response to menu item and button events in the
  * main window. Callbacks not used by Glade should go elsewhere.
- */
+*/
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -72,7 +72,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 #include <time.h>
-
+#include <pthread.h>
 
 /* represents the state at switching a notebook page(in the left treeviews widget), to not emit
  * the selection-changed signal from tv.tree_openfiles */
@@ -1171,16 +1171,126 @@ void on_toolbutton_run_clicked(GtkAction *action, gpointer user_data)
 	keybindings_send_command(GEANY_KEY_GROUP_BUILD, GEANY_KEYS_BUILD_RUN);
 }
 
-
-//Aadhilrf
-//Toolbutton assistant clicked here
-void on_toolbutton_assistant_clicked(GtkAction *action, gpointer user_data)
+/*
+void *asynthread()
 {
-    msgwin_status_add("I have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\nI have done some changes to the geany\n");
-    // system("echo 'akjlkdfda'");
-    // main_quit();
+	  //Identify the file type
+		GeanyDocument *doc = document_get_from_page(0);
+
+		FILE *fp;
+		char path[1035];
+
+		short flag_alert_code=0;
+
+		if(strcmp(doc->file_type->extension,"py")==0)
+			fp = popen("/mnt/code/pyvenv/env/bin/googlesamples-assistant-hotword --project_id sample-191712 --device_model_id samplemodel --file_type py", "r");
+
+		else
+			fp = popen("/mnt/code/pyvenv/env/bin/googlesamples-assistant-hotword --project_id sample-191712 --device_model_id samplemodel --file_type php", "r");
+
+		if (fp == NULL) {
+			printf("Failed to run command\n" );
+			exit(1);
+		}
+
+		while (fgets(path, sizeof(path)-1, fp) != NULL)
+		{
+			if(flag_alert_code==0)
+			{
+				printf("%s", path);
+      	msgwin_status_add("%s",path);
+			}
+			else
+			{
+				//GeanyDocument *doc1 = document_get_from_page(0);
+				printf("%s",path);
+				//msgwin_status_add("%s",path);
+				//GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+				//gtk_clipboard_set_text(clipboard,path,-1);
+
+		//		gdk_threads_enter();
+				editor_insert_snippet(doc->editor,0, g_locale_to_utf8(path,-1,NULL,NULL,NULL) );
+			//	gdk_threads_leave();
+				//sci_scroll_caret(doc->editor->sci);
+				//editor_insert_snippet(doc->editor, sci_get_current_position(doc->editor->sci),"qereqrqere");
+				break;
+			}
+			if(strstr(path,"code")!=NULL)
+				flag_alert_code=1;
+		}
+
+		// close
+    pclose(fp);
+		pthread_exit(NULL);
 }
 
+//AadhilRF : Toolbutton assistant clicked here
+void on_toolbutton_assistant_clicked(GtkAction *action, gpointer user_data)
+{
+    pthread_t tid;
+    pthread_create(&tid, NULL, asynthread, NULL);
+		pthread_join(tid,NULL);
+		//GeanyDocument *doc = document_get_current();
+		//editor_insert_snippet(doc->editor, sci_get_current_position(doc->editor->sci),"qee");
+}
+*/
+
+void on_toolbutton_assistant_clicked(GtkAction *action, gpointer user_data)
+{
+	GeanyDocument *doc = document_get_from_page(0);
+
+	FILE *fp;
+	char path[1035];
+
+	short flag_alert_code=0;
+
+	if(strcmp(doc->file_type->extension,"py")==0)
+		fp = popen("/mnt/code/pyvenv/env/bin/googlesamples-assistant-hotword --project_id sample-191712 --device_model_id samplemodel --file_type py", "r");
+
+	else
+		fp = popen("/mnt/code/pyvenv/env/bin/googlesamples-assistant-hotword --project_id sample-191712 --device_model_id samplemodel --file_type php", "r");
+
+	if (fp == NULL) {
+		printf("Failed to run command\n" );
+		exit(1);
+	}
+
+	while (fgets(path, sizeof(path)-1, fp) != NULL)
+	{
+
+			while (gtk_events_pending ())
+				gtk_main_iteration ();
+
+		if(flag_alert_code==0)
+		{
+			printf("%s", path);
+			msgwin_status_add("%s",path);
+			while (gtk_events_pending ())
+				gtk_main_iteration ();
+
+		}
+		else
+		{
+			//GeanyDocument *doc1 = document_get_from_page(0);
+			printf("%s",path);
+			//msgwin_status_add("%s",path);
+			//GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+			//gtk_clipboard_set_text(clipboard,path,-1);
+
+			//gdk_threads_enter();
+			editor_insert_snippet(doc->editor,sci_get_current_position(doc->editor->sci), g_locale_to_utf8(path,-1,NULL,NULL,NULL) );
+			//gdk_threads_leave();
+			sci_scroll_caret(doc->editor->sci);
+			//editor_insert_snippet(doc->editor, sci_get_current_position(doc->editor->sci),"qereqrqere");
+			break;
+		}
+		if(strstr(path,"code")!=NULL)
+			flag_alert_code=1;
+	}
+
+	// close
+	pclose(fp);
+}
 
 void on_menu_remove_indicators1_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
